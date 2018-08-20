@@ -4,7 +4,7 @@
 @section('content')
     <div class="jumbotron text-center">
         <h1>Активные элементы</h1>
-        <p><a class="btn btn-primary" href="/all" role="button">Архив</a>  <a class="btn btn-primary" href="/finance/create" role="button">Добавить элемент</a> <a class="btn btn-primary" href="/category" role="button">Категории</a></p>
+        <p><a class="btn btn-primary" href="/all" role="button">Статистика</a>  <a class="btn btn-primary" href="/finance/create" role="button">Добавить элемент</a> <a class="btn btn-primary" href="/category" role="button">Категории</a></p>
     </div>
     <div class="col-md-6">
         @if(count($finance)>= 1)
