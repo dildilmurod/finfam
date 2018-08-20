@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $finances = Category::find($id)->finances;
+        $finances = Finance::where('category_id',$id)->get();//Category::find($id)->finances;
         $categories = Category::all();
         return view('category.index', compact(['categories', 'finances']));
     }
