@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Finance;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class FinanceController extends Controller
 {
@@ -45,25 +47,42 @@ class FinanceController extends Controller
     {
         //
         $this->validate($request, [
-            'title' => 'required',
+            'title' => 'required|min:3',
             'sum' => 'required',
         ]);
-        $model = new Finance();
-        $model->title = $request->input('title');
-        if(empty($request->input('date'))) {
-            $model->date = date("Y-m-d H:i:s");
-        }
-        else {
-            $model->date = $request->input('date');
-        }
-        $model->type = $request->input('type');
-        $model->category_id = $request->input('category_id');
-        $model->sum = $request->input('sum');
-        $model->comment = $request->input('comment');
-        //print_r($model->category_id);die();
-        $model->save();
 
-        return redirect('/finance')->with('success', 'Добавлен элемент');
+        $validator = Validator::make(Input::all(), Finance::$rules);
+
+
+        // check if the validator failed -----------------------
+        if ($validator->fails()) {
+
+            // get the error messages from the validator
+
+            $messages = $validator->messages();
+
+
+
+            // redirect our user back to the form with the errors from the validator
+            return redirect('/finance/create')->with($validator);
+
+        } else {
+            $model = new Finance();
+            $model->title = $request->input('title');
+            if (empty($request->input('date'))) {
+                $model->date = date("Y-m-d H:i:s");
+            } else {
+                $model->date = $request->input('date');
+            }
+            $model->type = $request->input('type');
+            $model->category_id = $request->input('category_id');
+            $model->sum = $request->input('sum');
+            $model->comment = $request->input('comment');
+            //print_r($model->category_id);die();
+            $model->save();
+
+            return redirect('/finance')->with('success', 'Добавлен элемент');
+        }
     }
 
     /**

@@ -3,7 +3,7 @@
 @section('content')
     <div class="jumbotron text-center">
     <div class="navbar">
-            <h2> Categories: </h2>
+            <h2> Категории: </h2>
             @if(!empty($categories))
                 @forelse($categories as $category)
                     <h3><a href="{{route('category.show', $category->id)}}">{{$category->title}}</a></h3>
@@ -13,14 +13,14 @@
             @endif
             <br /><br />
 
-        <a class="btn btn-primary" data-toggle="modal" href="#myModal">Add Category</a>
+        <a class="btn btn-primary" data-toggle="modal" href="#myModal">Добавить Категорию</a>
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 {!! Form::open(['route'=>'category.store', 'method'=>'post']) !!}
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Add Category</h4>
+                        <h4 class="modal-title">Добавить</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" class="btn btn-default">Добавить</button>
                     </div>
                 </div>
                 {!! Form::close() !!}
@@ -39,7 +39,7 @@
     </div>
         @if(!empty($finances))
             <section>
-                <h3>Elements</h3>
+                <h3>Элементы</h3>
                 <table class="table table-hover">
                     <thead>
                     <tr>

@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Finance extends Model
 {
     //
+    public static $rules = array(
+        'title'             => 'required',                        // just a normal required validation
+            // required and has to match the password field
+    );
+
     protected $fillable = ['title', 'date', 'sum', 'comment'];
 
     protected $table = 'finances';
