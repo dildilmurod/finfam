@@ -4,7 +4,6 @@
     <div class="jumbotron text-center">
         <h1>Создать новый элемент</h1>
     </div>
-    <div class="row">
         <div class="col-md-12">
             @if (count($errors)>0)
                 <div class="alert alert-danger">
@@ -21,19 +20,19 @@
                     </div>
                     <div class="form-group">
                         {{Form::label('date', 'Дата')}}
-                        {{Form::date('date', 'date', ['class'=>'form-control','id'=>'',])}}
+                        {{Form::date('date', $date, ['class'=>'form-control','id'=>'',])}}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('type', 'Тип') }}
+                        {{ Form::label('type', 'Тип *') }}
                         {{ Form::select('type', ['приход'=>'Приход', 'расход'=>'Расход'], null, ['class'=>'form-control', 'id'=>'', 'placeholder'=>'Выбрать']) }}
                     </div>
                     <div class="form-group">
-                        {{ Form::label('category_id', 'Категория') }}
+                        {{ Form::label('category_id', 'Категория *') }}
                         {{ Form::select('category_id', $categories, null, ['class'=>'form-control', 'id'=>'', 'placeholder'=>'Выбрать']) }}
                     </div>
                     <div class="form-group">
                         {{ Form::label('sum', 'Сумма *') }}
-                        {!! Form::number('sum', null, ['class' => 'form-control','step' => '0.001']) !!}
+                        {!! Form::number('sum', null, ['class' => 'form-control','step' => '0.1']) !!}
                     </div>
                     <div class="form-group">
                         {{ Form::label('t', 'Отмеченные * поля являются обязательными') }}

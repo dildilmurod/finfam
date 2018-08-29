@@ -12,7 +12,7 @@
             <div class="well">
                 <a href="finance/{{$finances->id}}"><h3>{{$finances->title}}</h3></a>
                 <h4>{{$finances->date}}</h4>
-                <h4>{{$finances->sum}}</h4>
+                <h4>{{number_format($finances->sum, 0, '.', ' ')}}</h4>
                 <h4>{{$finances->type}}</h4>
 
                 <hr>

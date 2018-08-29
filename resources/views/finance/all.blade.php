@@ -31,10 +31,10 @@
                                 {{$finance->type}}
                             </td>
                             <td>
-                                {{$finance->category_id}}
+                                {{\App\Category::find($finance->category_id)->title}}
                             </td>
                             <td>
-                                {{$finance->sum}}
+                                {{number_format($finance->sum, 0, '.', ' ')}}
                             </td>
                             <td>
                                 {{$finance->date}}
@@ -54,8 +54,8 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td>: {{$total}}</td>
+                        <td>Общая сумма</td>
+                        <td>{{number_format($total, 0, '.', ' ')}}</td>
                         <td></td>
                     </tr>
 

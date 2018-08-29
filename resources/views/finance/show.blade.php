@@ -5,7 +5,7 @@
         <p><a class="btn btn-primary" href="/finance" role="button">Ко всем элементам</a></p>
         <h3>Описание: {{$finance->title}}</h3>
         <h4>Тип: {{$finance->type}}</h4>
-        <h4>Сумма: {{$finance->sum}}</h4>
+        <h4>Сумма: {{number_format($finance->sum, 0, '.', ' ')}}</h4>
         <h4>Категория: {{\App\Category::find($finance->category_id)->title}}</h4>
         <h4>Дата: {{$finance->date}}</h4>
         <h4>Комментарий: {{$finance->comment}}</h4>

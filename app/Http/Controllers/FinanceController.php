@@ -33,8 +33,9 @@ class FinanceController extends Controller
     {
 
         $category_id = null;
+        $date = date("Y-m-d");
         $categories = Category::pluck('title', 'id');
-        return view('finance.create', compact('categories'));
+        return view('finance.create', compact(['categories', 'date']));
     }
 
     /**
@@ -49,6 +50,9 @@ class FinanceController extends Controller
         $this->validate($request, [
             'title' => 'required|min:3',
             'sum' => 'required',
+            'type' => 'required',
+            'category_id' => 'required',
+
         ]);
 
         $validator = Validator::make(Input::all(), Finance::$rules);
@@ -77,7 +81,7 @@ class FinanceController extends Controller
             $model->type = $request->input('type');
             $model->category_id = $request->input('category_id');
             $model->sum = $request->input('sum');
-            $model->comment = $request->input('comment');
+            //$model->comment = $request->input('comment');
             //print_r($model->category_id);die();
             $model->save();
 
@@ -121,26 +125,44 @@ class FinanceController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'date' => 'required',
+            'title' => 'required|min:3',
             'sum' => 'required',
+            'type' => 'required',
+            'category_id' => 'required',
         ]);
 
-        $model = Finance::find($id);
-        $model->title = $request->input('title');
-        if(empty($request->input('date'))) {
-            $model->date = date("Y-m-d H:i:s");
-        }
-        else {
-            $model->date = $request->input('date');
-        }
-        $model->type = $request->input('type');
-        $model->category_id = $request->input('category_id');
-        $model->sum = $request->input('sum');
-        $model->comment = $request->input('comment');
-        $model->save();
+        $validator = Validator::make(Input::all(), Finance::$rules);
 
-        return redirect('/finance')->with('success', 'Элемент обновлен');
+
+        // check if the validator failed -----------------------
+        if ($validator->fails()) {
+
+            // get the error messages from the validator
+
+            $messages = $validator->messages();
+
+
+
+            // redirect our user back to the form with the errors from the validator
+            return redirect('/finance/edit')->with($validator);
+
+        } else {
+
+            $model = Finance::find($id);
+            $model->title = $request->input('title');
+            if (empty($request->input('date'))) {
+                $model->date = date("Y-m-d H:i:s");
+            } else {
+                $model->date = $request->input('date');
+            }
+            $model->type = $request->input('type');
+            $model->category_id = $request->input('category_id');
+            $model->sum = $request->input('sum');
+            //$model->comment = $request->input('comment');
+            $model->save();
+
+            return redirect('/finance')->with('success', 'Элемент обновлен');
+        }
     }
 
     /**
