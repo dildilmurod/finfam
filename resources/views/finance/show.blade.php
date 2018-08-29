@@ -6,7 +6,11 @@
         <h3>Описание: {{$finance->title}}</h3>
         <h4>Тип: {{$finance->type}}</h4>
         <h4>Сумма: {{number_format($finance->sum, 0, '.', ' ')}}</h4>
-        <h4>Категория: {{\App\Category::find($finance->category_id)->title}}</h4>
+        <h4>Категория:
+            @if(!empty(\App\Category::find($finance->category_id)->title))
+                {{\App\Category::find($finance->category_id)->title}}
+            @endif
+        </h4>
         <h4>Дата: {{$finance->date}}</h4>
         <h4>Комментарий: {{$finance->comment}}</h4>
 
@@ -28,8 +32,6 @@
                 {!! Form::close() !!}
             </div>
         </div>
-
-
 
 
     </div>

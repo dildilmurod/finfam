@@ -28,10 +28,14 @@
                                 {{$finance->title}}
                             </td>
                             <td>
-                                {{$finance->type}}
+                                @if(!empty($finance->type))
+                                    {{$finance->type}}
+                                    @endif
                             </td>
                             <td>
+                                @if(!empty(\App\Category::find($finance->category_id)->title))
                                 {{\App\Category::find($finance->category_id)->title}}
+                                    @endif
                             </td>
                             <td>
                                 {{number_format($finance->sum, 0, '.', ' ')}}
@@ -54,7 +58,7 @@
                     <tr>
                         <td></td>
                         <td></td>
-                        <td>Общая сумма</td>
+                        <td><u>Общая сумма</u></td>
                         <td>{{number_format($total, 0, '.', ' ')}}</td>
                         <td></td>
                     </tr>

@@ -34,14 +34,15 @@ class FinanceController extends Controller
 
         $category_id = null;
         $date = date("Y-m-d");
-        $categories = Category::pluck('title', 'id');
-        return view('finance.create', compact(['categories', 'date']));
+        $income = Category::where('type', 'приход')->pluck('title', 'id');
+        $outcome = Category::where('type', 'расход')->pluck('title', 'id');
+        return view('finance.create', compact(['income', 'outcome', 'date']));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -51,7 +52,6 @@ class FinanceController extends Controller
             'title' => 'required|min:3',
             'sum' => 'required',
             'type' => 'required',
-            'category_id' => 'required',
 
         ]);
 
@@ -66,7 +66,6 @@ class FinanceController extends Controller
             $messages = $validator->messages();
 
 
-
             // redirect our user back to the form with the errors from the validator
             return redirect('/finance/create')->with($validator);
 
@@ -79,8 +78,14 @@ class FinanceController extends Controller
                 $model->date = $request->input('date');
             }
             $model->type = $request->input('type');
-            $model->category_id = $request->input('category_id');
-            $model->sum = $request->input('sum');
+            if (!empty($request->input('category_id'))) {
+                $model->category_id = $request->input('category_id');
+            } else if (!empty($request->input('category_id1'))) {
+                $model->category_id = $request->input('category_id1');
+            } else {
+                return redirect('/finance/create')->with('error', 'Укажите категорию');
+            }
+            $model->sum = (double)preg_replace("/\s+/", "", $request->input('sum'));
             //$model->comment = $request->input('comment');
             //print_r($model->category_id);die();
             $model->save();
@@ -92,7 +97,7 @@ class FinanceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -105,21 +110,22 @@ class FinanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $finance = Finance::find($id);
-        $categories = Category::pluck('title', 'id');
-        return view('finance.edit', compact(['finance', 'categories']));
+        $income = Category::where('type', 'приход')->pluck('title', 'id');
+        $outcome = Category::where('type', 'расход')->pluck('title', 'id');
+        return view('finance.edit', compact(['finance', 'income', 'outcome']));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -140,7 +146,6 @@ class FinanceController extends Controller
             // get the error messages from the validator
 
             $messages = $validator->messages();
-
 
 
             // redirect our user back to the form with the errors from the validator
@@ -168,7 +173,7 @@ class FinanceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -179,6 +184,7 @@ class FinanceController extends Controller
         $model->delete();
         return redirect('/')->with('success', 'Element is Deleted');
     }
+
     public function all()
     {
         $finances = Finance::all();

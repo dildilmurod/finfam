@@ -27,6 +27,10 @@
                             {{ Form::label('title', 'Имя') }}
                             {{ Form::text('title', null, ['class'=>'form-control']) }}
                         </div>
+                        <div class="form-group">
+                            {{ Form::label('type', 'Тип *') }}
+                            {{ Form::select('type', ['приход'=>'Приход', 'расход'=>'Расход'], null, ['class'=>'form-control', 'id'=>'', 'placeholder'=>'Выбрать']) }}
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-default">Добавить</button>

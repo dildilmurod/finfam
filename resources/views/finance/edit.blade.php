@@ -27,10 +27,17 @@
                     {{ Form::label('type', 'Тип *') }}
                     {{ Form::select('type', ['приход'=>'Приход', 'расход'=>'Расход'], $finance->type, ['class'=>'form-control', 'placeholder'=>'Выбрать']) }}
                 </div>
-                <div class="form-group">
-                    {{ Form::label('category_id', 'Категория *') }}
-                    {{ Form::select('category_id', $categories, $finance->category_id, ['class'=>'form-control', 'placeholder'=>'Выбрать']) }}
-                </div>
+                @if($finance->type == 'приход')
+                    <div class="form-group" id="inc">
+                        {{ Form::label('category_id', 'Категория *') }}
+                        {{ Form::select('category_id', $income, $finance->category_id, ['class'=>'form-control', 'id'=>'category1', 'placeholder'=>'Выбрать', ]) }}
+                    </div>
+                @elseif($finance->type == 'расход')
+                    <div class="form-group" id="out">
+                        {{ Form::label('category_id', 'Категория *') }}
+                        {{ Form::select('category_id', $outcome, $finance->category_id, ['class'=>'form-control', 'id'=>'category', 'placeholder'=>'Выбрать', ]) }}
+                    </div>
+                @endif
                 <div class="form-group">
                     {{ Form::label('sum', 'Сумма *') }}
                     {{ Form::number('sum', $finance->sum, ['class'=>'form-control']) }}
